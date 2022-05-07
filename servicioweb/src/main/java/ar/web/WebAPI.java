@@ -6,9 +6,11 @@ import java.util.Map;
 
 import ar.model.Estudiante;
 import ar.model.Localidad;
+import ar.model.Materia;
 import ar.model.PersonaException;
 import ar.servicios.Estudiantes;
 import ar.servicios.Localidades;
+import ar.servicios.Materias;
 import io.javalin.Javalin;
 import io.javalin.http.Handler;
 
@@ -16,11 +18,13 @@ public class WebAPI {
 
 	private Estudiantes estudiantes;
 	private Localidades localidades;
+	private Materias materias;
 	private int webPort;
 
-	public WebAPI(Localidades localidades, Estudiantes estudiantes, int webPort) {
+	public WebAPI(Localidades localidades, Estudiantes estudiantes, Materias materias, int webPort) {
 		this.estudiantes = estudiantes;
 		this.localidades = localidades;
+		this.materias = materias;
 		this.webPort = webPort;
 	}
 
@@ -32,6 +36,7 @@ public class WebAPI {
 		app.get("/EstudianteLegajo", traerEstudiantePorLegajo());
 		// app.get("/localidades", traerLocalidades());
 		app.post("/estudiantes", crearEstudiante());
+		app.get("/materias", traerMaterias());
 
 		app.exception(PersonaException.class, (e, ctx) -> {
 			ctx.json(Map.of("result", "error", "message", e.getMessage()));
@@ -42,6 +47,17 @@ public class WebAPI {
 			ctx.json(Map.of("result", "error", "message", "Ups... algo se rompió.: " + e.getMessage()));
 			// log error in a stream...
 		});
+	}
+
+	private Handler traerMaterias() {
+		return ctx -> {
+			var materias = this.materias.materias();
+			var list = new ArrayList<Map<String, Object>>();
+			for (Materia m : materias) {
+				list.add(m.toMap());
+			}
+			ctx.json(Map.of("result", "success", "materias", list));
+		};
 	}
 
 	private Handler traerLocalidades() {
@@ -89,7 +105,23 @@ public class WebAPI {
 
 			String nroLegajo = ctx.queryParam("legajo");
 
-			List<Estudiante> estudiantes = this.estudiantes.estudiantes(Integer.parseInt(nroLegajo));
+			List<Estudiante> estudiantes = new ArrayList<Estudiante>();
+
+			System.out.println("ok0 /" + nroLegajo + "/");
+
+			if (nroLegajo != null) {
+				System.out.println("ok1");
+				if (!nroLegajo.isBlank() || !nroLegajo.isEmpty()) {
+					System.out.println("ok2");
+					estudiantes = this.estudiantes.estudiantes(Integer.parseInt(nroLegajo));
+				} else {
+					System.out.println("ok3");
+					estudiantes = this.estudiantes.estudiantes(0);
+				}
+			} else {
+				System.out.println("ok4");
+				estudiantes = this.estudiantes.estudiantes(0);
+			}
 
 			var list = new ArrayList<Map<String, Object>>();
 

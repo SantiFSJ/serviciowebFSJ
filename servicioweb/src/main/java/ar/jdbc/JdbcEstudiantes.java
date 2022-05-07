@@ -28,14 +28,6 @@ public class JdbcEstudiantes implements Estudiantes {
 		e2.addMateria(m2);
 		e3.addMateria(m3);
 
-		/*
-		 * e1.addDireccion("San Martin 123"); e2.addDireccion("Belgrano 34");
-		 * e3.addDireccion("Bs As 908");
-		 * 
-		 * e1.addTelefono("12345678"); e1.addTelefono("45335678");
-		 * e2.addTelefono("45633334"); e3.addTelefono("11222356");
-		 */
-
 		var estudiantes = List.of(e1, e2, e3);
 
 		if (apellido == null || apellido.isEmpty())
@@ -61,14 +53,6 @@ public class JdbcEstudiantes implements Estudiantes {
 		e1.addMateria(m4);
 		e2.addMateria(m2);
 		e3.addMateria(m3);
-
-		/*
-		 * e1.addDireccion("San Martin 123"); e2.addDireccion("Belgrano 34");
-		 * e3.addDireccion("Bs As 908");
-		 * 
-		 * e1.addTelefono("12345678"); e1.addTelefono("45335678");
-		 * e2.addTelefono("45633334"); e3.addTelefono("11222356");
-		 */
 
 		var estudiantes = List.of(e1, e2, e3);
 
