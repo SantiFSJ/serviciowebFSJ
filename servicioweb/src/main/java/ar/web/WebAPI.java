@@ -107,19 +107,13 @@ public class WebAPI {
 
 			List<Estudiante> estudiantes = new ArrayList<Estudiante>();
 
-			System.out.println("ok0 /" + nroLegajo + "/");
-
 			if (nroLegajo != null) {
-				System.out.println("ok1");
 				if (!nroLegajo.isBlank() || !nroLegajo.isEmpty()) {
-					System.out.println("ok2");
 					estudiantes = this.estudiantes.estudiantes(Integer.parseInt(nroLegajo));
 				} else {
-					System.out.println("ok3");
 					estudiantes = this.estudiantes.estudiantes(0);
 				}
 			} else {
-				System.out.println("ok4");
 				estudiantes = this.estudiantes.estudiantes(0);
 			}
 
